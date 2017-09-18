@@ -1,4 +1,3 @@
-#from django.shortcuts import render
 from .models import Book
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -12,18 +11,13 @@ from django.http import HttpResponse
 
 
 def index(request):
-
     all_books = Book.objects.all()
-    html = ''
-    for book in all_books:
-        url = '/book/' + str(book.id) + '/'
-        html += '<a href="' + url + '">' + book.name + '</a><br>'
+    return render(request, 'book/home.html', {'all_books': all_books})
 
-    # return HttpResponse("Hello, world. You're at the books index.")
-    return HttpResponse(html)
 
 def detail(request, book_id):
     return HttpResponse("<h2>Details for Book ID: " + str(book_id) + "</h2>")
+
 
 def logout_user(request):
     logout(request)
