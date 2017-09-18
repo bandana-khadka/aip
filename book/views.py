@@ -16,6 +16,13 @@ def index(request):
 
 
 def detail(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'book/details.html', {'book_description': book.description})
+    return HttpResponse("<h2>Details for Book ID: " + str(book_id) + "</h2>")
+
+def book_detail(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'book/user/details.html', {'book_description': book.description})
     return HttpResponse("<h2>Details for Book ID: " + str(book_id) + "</h2>")
 
 
@@ -37,7 +44,7 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 all_books = Book.objects.all()
-                return render(request, 'book/index.html', {'all_books': all_books})
+                return render(request, 'book/user/index.html', {'all_books': all_books})
             else:
                 return render(request, 'book/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -58,7 +65,7 @@ def register(request):
             if user.is_active:
                 login(request, user)
                 books = Book.objects.filter(user=request.user)
-                return render(request, 'book/index.html', {'books': books})
+                return render(request, 'book/user/index.html', {'books': books})
     context = {
         "form": form,
     }
