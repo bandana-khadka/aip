@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views import generic
 from django.views.generic import View
-from .forms import UserForm, BookForm
+from .forms import UserForm, BookForm, BookUpdateForm
 from django.contrib.auth import logout
 from django.http import HttpResponse
 
@@ -23,7 +23,7 @@ def detail(request, book_id):
 
 def book_detail(request, book_id):
     book = Book.objects.get(id=book_id)
-    return render(request, 'book/user/details.html', {'book_description': book.description})
+    return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
 
 def logout_user(request):
     logout(request)
@@ -84,8 +84,33 @@ def add_book(request):
             book.description = form.cleaned_data['description']
             book.publication_date = form.cleaned_data['publication_date']
             book.save()
-            return render(request, 'book/user/details.html', {'book_description': book.description})
+            return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
         context = {
             "form": form,
         }
         return render(request, 'book/user/new_book.html', context)
+
+
+#TODO need to fix error in the editing process
+def edit_book(request, book_id):
+    if not request.user.is_authenticated():
+        return render(request, 'book/login.html')
+    else:
+        form = BookUpdateForm(request.POST or None)
+        if form.is_valid():
+            book = Book.objects.get(pk=book_id)
+            book_form = BookForm(request.POST, instance=book)
+            book_form.save()
+            return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
+        context = {
+            "form": form,
+        }
+        return render(request, 'book/user/new_book.html', context)
+
+
+
+def delete_book(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    book.delete()
+    books = Book.objects.all()
+    return render(request, 'book/user/index.html', {'all_books': books})

@@ -8,4 +8,23 @@
     {% else %}
         <h3>No details found for the book</h3>
     {% endif %}
+
+    <div class="col-sm-12">
+        <br>
+        <a href="{% url 'book:edit_book' book.id %}">
+            <button type="button" class="btn btn-warning">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp; Edit Book
+            </button>
+        </a>
+    </div>
+
+    <div class="col-sm-12">
+        <form action="{% url 'book:delete_book' book.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="book_id" value="{{ book.id }}" />
+            <button type="submit" class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+            </button>
+        </form>
+    </div>
 {% endblock %}
