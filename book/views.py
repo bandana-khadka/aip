@@ -3,10 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views import generic
 from django.views.generic import View
-from .forms import UserForm
+from .forms import UserForm, BookForm
 from django.contrib.auth import logout
-
-# Create your views here.
 from django.http import HttpResponse
 
 
@@ -14,17 +12,18 @@ def index(request):
     all_books = Book.objects.all()
     return render(request, 'book/home.html', {'all_books': all_books})
 
+def all(request):
+    all_books = Book.objects.all()
+    return render(request, 'book/user/index.html', {'all_books': all_books})
+
 
 def detail(request, book_id):
     book = Book.objects.get(id=book_id)
     return render(request, 'book/details.html', {'book_description': book.description})
-    return HttpResponse("<h2>Details for Book ID: " + str(book_id) + "</h2>")
 
 def book_detail(request, book_id):
     book = Book.objects.get(id=book_id)
     return render(request, 'book/user/details.html', {'book_description': book.description})
-    return HttpResponse("<h2>Details for Book ID: " + str(book_id) + "</h2>")
-
 
 def logout_user(request):
     logout(request)
@@ -64,9 +63,29 @@ def register(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                books = Book.objects.filter(user=request.user)
+                books = Book.objects.all()
                 return render(request, 'book/user/index.html', {'books': books})
     context = {
         "form": form,
     }
     return render(request, 'book/register.html', context)
+
+
+def add_book(request):
+    if not request.user.is_authenticated():
+        return render(request, 'book/login.html')
+    else:
+        form = BookForm(request.POST or None)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.name = form.cleaned_data['name']
+            book.publication_address = form.cleaned_data['publication_address']
+            book.edition = form.cleaned_data['edition']
+            book.description = form.cleaned_data['description']
+            book.publication_date = form.cleaned_data['publication_date']
+            book.save()
+            return render(request, 'book/user/details.html', {'book_description': book.description})
+        context = {
+            "form": form,
+        }
+        return render(request, 'book/user/new_book.html', context)

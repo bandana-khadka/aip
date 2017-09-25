@@ -11,4 +11,12 @@
     {% else %}
         <h3>There are no books</h3>
     {% endif %}
+    <div class="col-sm-12">
+                <br>
+                <a href="{% url 'book:add_book' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a Book
+                    </button>
+                </a>
+            </div>
 {% endblock %}
