@@ -1,20 +1,26 @@
 from .models import Book
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import authenticate, login
-from django.views import generic
-from django.views.generic import View
-from .forms import UserForm, BookForm, BookUpdateForm
+from .forms import UserForm, BookForm
 from django.contrib.auth import logout
-from django.http import HttpResponse
+from django.db.models import Q
 
 
 def index(request):
-    all_books = Book.objects.all()
-    return render(request, 'book/home.html', {'all_books': all_books})
 
-def all(request):
     all_books = Book.objects.all()
-    return render(request, 'book/user/index.html', {'all_books': all_books})
+
+    query = request.GET.get("q")
+    if query:
+        all_books = all_books.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        ).distinct()
+
+    if not request.user.is_authenticated():
+        return render(request, 'book/home.html', {'all_books': all_books})
+    else:
+        return render(request, 'book/user/index.html', {'all_books': all_books})
 
 
 def detail(request, book_id):
@@ -91,22 +97,21 @@ def add_book(request):
         return render(request, 'book/user/new_book.html', context)
 
 
-#TODO need to fix error in the editing process
 def edit_book(request, book_id):
     if not request.user.is_authenticated():
         return render(request, 'book/login.html')
-    else:
-        form = BookUpdateForm(request.POST or None)
-        if form.is_valid():
-            book = Book.objects.get(pk=book_id)
-            book_form = BookForm(request.POST, instance=book)
-            book_form.save()
-            return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
-        context = {
-            "form": form,
-        }
-        return render(request, 'book/user/new_book.html', context)
 
+    book = Book.objects.get(pk=book_id)
+    if(request.POST):
+        book.name = request.POST['name']
+        book.publication_address = request.POST['publication_address']
+        book.edition = request.POST['edition']
+        book.description = request.POST['description']
+        book.publication_date = request.POST['publication_date']
+        book.save()
+        return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
+
+    return render(request, 'book/user/edit_book.html', {'book': book})
 
 
 def delete_book(request, book_id):
