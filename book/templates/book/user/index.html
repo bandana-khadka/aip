@@ -1,6 +1,9 @@
 {% extends 'book/base.html' %}
 
 {% block body %}
+    {% if error_message %}
+        <p style="color:red;"><strong>{{ error_message }}</strong></p>
+    {% endif %}
     {% if all_books %}
         <h3>List of all the books:</h3>
         <ul>

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from .forms import UserForm, BookForm
 from django.contrib.auth import logout
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 def index(request):
@@ -23,15 +24,18 @@ def index(request):
         return render(request, 'book/user/index.html', {'all_books': all_books})
 
 
-def detail(request, book_id):
-    book = Book.objects.get(id=book_id)
-    return render(request, 'book/details.html', {'book_description': book.description})
-
 def book_detail(request, book_id):
-    book = Book.objects.get(id=book_id)
-    return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
+
+    book = get_object_or_404(Book, pk=book_id)
+
+    if not request.user.is_authenticated():
+        return render(request, 'book/details.html', {'book': book})
+    else:
+        return render(request, 'book/user/details.html', {'book': book})
+
 
 def logout_user(request):
+
     logout(request)
     form = UserForm(request.POST or None)
     context = {
@@ -41,6 +45,7 @@ def logout_user(request):
 
 
 def login_user(request):
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -58,6 +63,7 @@ def login_user(request):
 
 
 def register(request):
+
     form = UserForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
@@ -78,6 +84,7 @@ def register(request):
 
 
 def add_book(request):
+
     if not request.user.is_authenticated():
         return render(request, 'book/login.html')
     else:
@@ -98,19 +105,22 @@ def add_book(request):
 
 
 def edit_book(request, book_id):
+
     if not request.user.is_authenticated():
         return render(request, 'book/login.html')
 
-    book = Book.objects.get(pk=book_id)
-    if(request.POST):
-        book.name = request.POST['name']
-        book.publication_address = request.POST['publication_address']
-        book.edition = request.POST['edition']
-        book.description = request.POST['description']
-        book.publication_date = request.POST['publication_date']
-        book.save()
-        return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
-
+    book = get_object_or_404(Book, pk=book_id)
+    if(book):
+        if(request.POST):
+            book.name = request.POST['name']
+            book.publication_address = request.POST['publication_address']
+            book.edition = request.POST['edition']
+            book.description = request.POST['description']
+            book.publication_date = request.POST['publication_date']
+            book.save()
+            return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
+    else:
+        return render(request, 'book/user/index.html', {'error_message': 'Invalid book!'})
     return render(request, 'book/user/edit_book.html', {'book': book})
 
 
