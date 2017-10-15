@@ -5,6 +5,35 @@ from .forms import UserForm, BookForm
 from django.contrib.auth import logout
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import BookSerializer
+
+
+def username_exists(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': User.objects.filter(username__iexact=username).exists()
+    }
+
+    if data['is_taken']:
+        data['error_message'] = 'A user with this username already exists. Please enter a new username.'
+
+    return JsonResponse(data)
+
+def email_exists(request):
+    email = request.GET.get('email', None)
+    data = {
+        'is_taken': User.objects.filter(email__iexact=email).exists()
+    }
+
+    if data['is_taken']:
+        data['error_message'] = 'This email address is already registered. Please enter a new email address.'
+
+    return JsonResponse(data)
 
 
 def index(request):
@@ -15,7 +44,8 @@ def index(request):
     if query:
         all_books = all_books.filter(
             Q(name__icontains=query) |
-            Q(description__icontains=query)
+            Q(description__icontains=query) |
+            Q(author__icontains=query)
         ).distinct()
 
     if not request.user.is_authenticated():
@@ -96,6 +126,7 @@ def add_book(request):
             book.edition = form.cleaned_data['edition']
             book.description = form.cleaned_data['description']
             book.publication_date = form.cleaned_data['publication_date']
+            book.author = form.cleaned_data['author']
             book.save()
             return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
         context = {
@@ -117,6 +148,7 @@ def edit_book(request, book_id):
             book.edition = request.POST['edition']
             book.description = request.POST['description']
             book.publication_date = request.POST['publication_date']
+            book.author = request.POST['author']
             book.save()
             return render(request, 'book/user/details.html', {'book_description': book.description, 'book': book})
     else:
@@ -129,3 +161,18 @@ def delete_book(request, book_id):
     book.delete()
     books = Book.objects.all()
     return render(request, 'book/user/index.html', {'all_books': books})
+
+class BookList(APIView):
+
+    def get(self, request):
+        all_books = Book.objects.all()
+        serializer = BookSerializer(all_books, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        if(request.POST['auth_key'] == 'ABCD!@#$'):
+            all_books = Book.objects.all()
+            serializer = BookSerializer(all_books, many=True)
+            return Response(serializer.data)
+        else:
+            return Response('Error')

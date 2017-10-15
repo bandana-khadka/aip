@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from . import views
-from django.contrib import admin
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -11,4 +11,9 @@ urlpatterns = [
     url(r'^register/', views.register, name='register'),
     url(r'^login_user/', views.login_user, name='login_user'),
     url(r'^logout_user/', views.logout_user, name='logout_user'),
+    url(r'^ajax/username_exists/$', views.username_exists, name='username_exists'),
+    url(r'^ajax/email_exists/$', views.email_exists, name='email_exists'),
+    url(r'^books/', views.BookList.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

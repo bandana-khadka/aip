@@ -1,5 +1,5 @@
 from django.contrib import admin
-from book.models import Book,Author
+from book.models import Book
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']

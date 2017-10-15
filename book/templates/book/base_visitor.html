@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Viberr{% endblock %}</title>
+    <title>{% block title %}Library{% endblock %}</title>
     {% load staticfiles %}
-{#    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>#}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'book/style.css' %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-{#    <script src="{% static 'book/js/main.js' %}"></script>#}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbqSj_zKm28IFI6alzIr1fdKX3A4sG2W0&libraries=places&callback=initMap"
+    async defer></script>
+    <script src="{% static 'book/main.js' %}"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -40,8 +42,6 @@
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
         </div>
-
-
     </div>
 </nav>
 {% block body %}
