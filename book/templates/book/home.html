@@ -1,15 +1,40 @@
 {% extends 'book/base_visitor.html' %}
 {% block title %}AIP Library management{% endblock %}
-
+{% load staticfiles %}
 {% block body %}
+
+    <div class="row">
+    <div class="col-md-8">
+    <h1><b> Welcome to Library </b></h1>
+        <h3> This website is for Advanced Internet Programming : </h3>
+            <p><h4>AIP library management application: database of the personal library</h4>
+            <img src="{% static 'book/book_main.jpg' %}" width="700" height="300" align="center">
+
+    </div>
+
+    <div class="col-md-4">
+    </div>
+            <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'book:index' %}">
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm " name="q" value="{{ request.GET.q }}">
+                </div>
+                <button type="submit" class="btn btn-default btn-sm">Search</button>
+            </form>
+    </div>
+
+    <hr>
+
+    <div class="row">
     {% if all_books %}
         <h3>List of all the books:</h3>
         <ul>
             {% for book in all_books %}
-                <li><a href="{% url 'book:detail' book.id %}">{{ book.name }}</a></li>
+                <li><a href="{% url 'book:detail' book.id %}">{{ book.name|capfirst }}</a></li>
             {% endfor %}
         </ul>
     {% else %}
         <h3>There are no books</h3>
     {% endif %}
+    </div>
+
 {% endblock %}

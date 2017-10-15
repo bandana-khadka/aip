@@ -5,7 +5,7 @@
         <h3>List of all the books:</h3>
         <ul>
             {% for book in all_books %}
-                <li><a href="{% url 'book:book_detail' book.id %}">{{ book.name }}</a></li>
+                <li><a href="{% url 'book:book_detail' book.id %}">{{ book.name|capfirst }}</a></li>
             {% endfor %}
         </ul>
     {% else %}

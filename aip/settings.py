@@ -25,7 +25,9 @@ SECRET_KEY = '$-i93v7=47rf29jg6-*7*3o#(#7-8a+kaw&elb3v45y-5f2r$q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+]
 
 
 # Application definition
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+
 ]
 
 ROOT_URLCONF = 'aip.urls'
@@ -58,7 +61,7 @@ ROOT_URLCONF = 'aip.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['book/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+#TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "aip", "static"),

@@ -1,6 +1,7 @@
 {% extends 'book/base_visitor.html' %}
 {% block title %}Book Details{% endblock %}
 
+
 {% block body %}
     {% if book_description %}
         <h3>Book Details:</h3>
@@ -8,4 +9,6 @@
     {% else %}
         <h3>No details found for the book</h3>
     {% endif %}
+
+    <a href="{% url 'index' %}">Back to book list</a>
 {% endblock %}
