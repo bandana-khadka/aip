@@ -26,7 +26,7 @@ SECRET_KEY = '$-i93v7=47rf29jg6-*7*3o#(#7-8a+kaw&elb3v45y-5f2r$q'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'yoonhye.pythonanywhere.com'
+
 ]
 
 
