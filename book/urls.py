@@ -2,7 +2,9 @@ from django.conf.urls import url
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
+# It’s where we define the mapping between URLs and views.
 urlpatterns = [
+    # The marked line maps the URL "delete_book" to the name delete_book view created in view.py file.
     url(r'^$', views.index, name='index'),
     url(r'^delete_book/(?P<book_id>[0-9]+)/', views.delete_book, name='delete_book'),
     url(r'^book_detail/(?P<book_id>[0-9]+)/', views.book_detail, name='book_detail'),
