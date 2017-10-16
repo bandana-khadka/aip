@@ -7,7 +7,19 @@ body {
 
 }
 
-html { height: 100%; }
+
+
+.navbar-form{
+    padding-top: 3px;
+}
+
+.navbar-brand {
+    font-family: 'Satisfy', cursive;
+    font-size: 20px;
+    margin-left: 12%;
+    margin-right: 10px;
+}
+
 
 .container-fluid {
     max-width: 80%;
@@ -51,22 +63,6 @@ ul.errorlist > li {
     list-style: none;
 }
 
-.navbar {
-    border-radius: 0;
-    margin-bottom: 0;
-}
-
-.navbar-form{
-    padding-top: 3px;
-    margin-bottom: 0;
-}
-
-.navbar-brand {
-    font-family: 'Satisfy', cursive;
-    font-size: 20px;
-    margin-left: 12%;
-    margin-right: 10px;
-}
 
 .glyphicon-star {
     color: #CCCCCC;

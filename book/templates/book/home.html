@@ -1,8 +1,22 @@
 {% extends 'book/base_visitor.html' %}
 {% block title %}AIP Library management{% endblock %}
-
+{% load staticfiles %}
 {% block body %}
-    {% if all_books %}
+
+    <div class="row">
+
+    <h1><b> Welcome to Library </b></h1>
+        <h3> This website is for Advanced Internet Programming : </h3>
+            <p><h4>AIP library management application: database of the personal library</h4>
+            <img src="{% static 'book/book_main.jpg' %}" width="700" height="300" align="center">
+
+
+
+    </div>
+
+    <div class="row">
+
+     {% if all_books %}
         <h3>List of all the books:</h3>
         <ul>
             {% for book in all_books %}
@@ -12,7 +26,8 @@
     {% else %}
         <h3>There are no books</h3>
     {% endif %}
+    <hr>
+        <div id="map" style="position: inherit;height:300px;width:300px;"></div>
+    </div>
 
-    <div id="map" style="position:absolute;top:100px;right:100px;height:400px;width:500px;"></div>
-    
 {% endblock %}
