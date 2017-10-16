@@ -104,3 +104,10 @@ AUTHORS
 
 Students of UTS- Bandana, Yoonhye, Sachin
 
+REFERENCES
+
+https://docs.djangoproject.com/en/1.11/
+https://github.com/buckyroberts/Viberr
+https://simpleisbetterthancomplex.com/tutorial/2016/08/29/how-to-work-with-ajax-request-with-django.html
+https://developers.google.com/maps/documentation/javascript/tutorial
+https://www.youtube.com/watch?v=qgGIqRFvFFk&list=PL6gx4Cwl9DGBlmzzFcLgDhKTTfNLfX1IK
