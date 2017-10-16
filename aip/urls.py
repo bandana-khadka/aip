@@ -20,8 +20,14 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^', include('book.urls')),
     url(r'^admin/', admin.site.urls),
+    
+    # The marked line maps the URL "book" to the name book view created in view.py file.
     url(r'^book/', include('book.urls', namespace='book')),
+    
+    # The marked line maps the URL "user" to the name user view created in view.py file.
     url(r'^user/', include('user.urls', namespace='user')),
+    
+    # The marked line maps the URL "rest_framework" to the name rest_framework view created in view.py file.
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
