@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Table for storing book information in the library
 
 class Book(models.Model):
     name = models.CharField(max_length=100)
