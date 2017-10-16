@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'livereload',
     'django.contrib.staticfiles',
     'rest_framework',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,9 @@ STATICFILES_DIRS = [
 #         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
 #     ]
 # }
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'django.smtp.library@gmail.com'
+EMAIL_HOST_PASSWORD = 'smtp1234test'
+EMAIL_USE_TLS = True
