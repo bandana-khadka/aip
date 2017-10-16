@@ -1,3 +1,48 @@
+body {
+    /*background: white url("images/background.png");*/
+
+    background-color : linen;
+    height: 100%;
+    overflow-x: hidden;
+
+}
+
+html { height: 100%; }
+
+.container-fluid {
+    max-width: 80%;
+    min-height: 700px;
+    background-color: white;
+    height: auto;
+    margin-top: 2%;
+    align-content: center;
+}
+
+hr {
+    size: 30px;
+    width: 100%;
+    color: burlywood;
+}
+
+img {
+    size: auto;
+}
+.page{
+    padding: 3%;
+}
+#topNavBar {
+    margin-left: 0;
+    max-width: 89%;
+}
+
+.footer{
+    background-color: black;
+    padding: 3%;
+    height: 150px;
+    max-width: 78.5%;
+    margin-left: 10.8%;
+}
+
 ul.errorlist {
     padding-left: 0;
 }
@@ -8,10 +53,19 @@ ul.errorlist > li {
 
 .navbar {
     border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbar-form{
+    padding-top: 3px;
+    margin-bottom: 0;
 }
 
 .navbar-brand {
     font-family: 'Satisfy', cursive;
+    font-size: 20px;
+    margin-left: 12%;
+    margin-right: 10px;
 }
 
 .glyphicon-star {
